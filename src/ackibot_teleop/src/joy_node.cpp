@@ -39,34 +39,35 @@ public:
 		//postavljanje koordinatnog sistema, za joystick nije ni bitno
 		joy_msg.header.frame_id = "joy"; //TODO What is anyway.
 
+
 		int device_id;
-
-		//CITANJE PARAMETARA ČVORA
-
-		//parametar koji govori koji joystick koristimo
-		this->get_parameter_or<int>(
-			"device_id",		//traži parametar device_id tipa int
-			device_id,			//ako postoji ovde ga upisuje
-			0					//ako ne postoji upisuje podrazumevanu vrednost 
+		this->declare_parameter(
+			"device_id",
+			200
+		);
+		this->get_parameter<int>(
+			"device_id",
+			device_id
 		);
 
-		//parametar definiše "mrtvu zonu" - kod dzojstika stap nikad ne miruje savrseno na nuli
-		//deadzone odredjue prag ispod kog ce vrednost biti tretirana kao 0
-		this->get_parameter_or<float>(
+		this->declare_parameter(
 			"deadzone",
-			deadzone,
 			0.1
 		);
-
-		//vrednost u Hz, koloko puta u sekundi ponavlja poruku
-		//umesto da se poruka salje samo kada se desi dogadjaj (pritisak dugmeta)
-		float autorepeat_rate;
-		this->get_parameter_or<float>(
-			"autorepeat_rate",
-			autorepeat_rate,
-			20.0
+		this->get_parameter<float>(
+			"deadzone",
+			deadzone
 		);
 
+		float autorepeat_rate;
+		this->declare_parameter(
+			"autorepeat_rate",
+			20.0
+		);
+		this->get_parameter<float>(
+			"autorepeat_rate",
+			autorepeat_rate
+		);
 
 		//output string stream
 		ostringstream oss;
@@ -146,7 +147,7 @@ protected:
 				//pokusava da otvori joystick uredjaj ako jos nije otvoren
 				js_fd = open(js_fn.c_str(), O_RDONLY);
 				if (js_fd == -1) {
-					RCLCPP_ERROR(
+					RCLCPP_ERROR_ONCE(
 						this->get_logger(),
 						"Error opening joystick dev \"%s\": errno %d %s",
 						js_fn.c_str(),
@@ -242,7 +243,7 @@ protected:
 
 
 				}else{
-					RCLCPP_WARN(
+					RCLCPP_ERROR_ONCE(
 						this->get_logger(),
 						"Cannot read \"%s\": errno %d %s",
 						js_fn.c_str(),

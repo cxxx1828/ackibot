@@ -6,10 +6,8 @@
   <description>
     Teleop
   </description>
-  <maintainer email="max@birley.us">Max Birley</maintainer>
+  <maintainer email="milos.subotic.sm@gmail.com">Milos Subotic</maintainer>
   <license>Apache 2.0</license>
-  <url type="website">myrobotkits.us</url>
-  <url type="repository">https://github.com/Mdbirley/mybot</url>
   <author email="milos.subotic.sm@gmail.com">Milos Subotic</author>
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>ackibot_utils</exec_depend>
